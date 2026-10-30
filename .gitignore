@@ -218,3 +218,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Eco Fusion 360 specific files
+
+# Database
+*.db
+*.sqlite3
+
+# JavaScript dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Secret files
+.env
+.env.*
+!.env.example
