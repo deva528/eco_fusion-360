@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Fusion 360 | Reward Center</title>
+
+<!-- Modern Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg-base: #090d10;
+    --bg-surface: rgba(17, 24, 31, 0.75);
+    --bg-card: rgba(14, 21, 28, 0.65);
+    
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(52, 211, 153, 0.45);
+    
+    --accent-emerald: #10b981;
+    --accent-mint: #34d399;
+    --accent-cyan: #06b6d4;
+    --accent-gold: #fbbf24;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-emerald: #6ee7b7;
+
+    --glow-emerald: 0 0 25px rgba(16, 185, 129, 0.18);
+    --glow-gold: 0 0 25px rgba(251, 191, 36, 0.2);
+    
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 9999px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-base);
+    background-image: 
+        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.10) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Glass Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 6%;
+    background: rgba(9, 13, 16, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+}
+
+.brand span {
+    background: linear-gradient(135deg, #34d399, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-mint);
+    letter-spacing: 0.3px;
+}
+
+.nav-pill .dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent-mint);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-mint);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 32px 24px 80px;
+}
+
+/* Glass Panel */
+.glass-panel {
+    background: var(--bg-surface);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+}
+
+/* Notification Alerts */
+.notice-box {
+    padding: 14px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--text-emerald);
+}
+
+.notice-box.error {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+}
+
+/* Hero Section */
+.hero {
+    padding: 32px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.06));
+    backdrop-filter: blur(16px);
+    display: grid;
+    grid-template-columns: 1.6fr 0.8fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 28px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+}
+
+.eyebrow {
+    color: var(--accent-mint);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(26px, 3.8vw, 42px);
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 20px;
+}
+
+.hero-art {
+    font-size: 70px;
+    text-align: center;
+    filter: drop-shadow(0 0 30px rgba(52, 211, 153, 0.35));
+}
+
+/* Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    background: linear-gradient(145deg, rgba(20, 29, 38, 0.6), rgba(12, 18, 24, 0.8));
+    backdrop-filter: blur(12px);
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-mint), transparent);
+    opacity: 0.4;
+}
+
+.stat-card small {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.stat-card strong {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 8px;
+    display: block;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.stat-card strong.highlight {
+    background: linear-gradient(135deg, #34d399, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Headings */
+.section-headline {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 35px 0 10px;
+}
+
+.section-headline h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-headline p {
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    margin-top: 4px;
+}
+
+/* Progress Bar */
+.progress-shell {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+    margin: 14px 0 28px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #06b6d4);
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+    transition: width 0.5s ease;
+}
+
+/* Rewards Grid */
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.manga-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.manga-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4), var(--glow-emerald);
+}
+
+.manga-card.unlocked-card {
+    border-color: rgba(251, 191, 36, 0.35);
+    background: linear-gradient(165deg, rgba(23, 31, 38, 0.9), rgba(16, 24, 30, 0.7));
+}
+
+.manga-card.unlocked-card:hover {
+    border-color: rgba(251, 191, 36, 0.6);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4), var(--glow-gold);
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.genre-pill {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+}
+
+.status-badge {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+}
+
+.status-badge.unlocked {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #1e1300;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
+}
+
+.status-badge.locked {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+}
+
+.card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.card-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.manga-card.unlocked-card .card-avatar {
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.card-title-group h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
+}
+
+.card-desc {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+    flex: 1;
+}
+
+.cost-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+}
+
+/* Button Variants */
+.btn-primary, .action-btn {
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #04180f;
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.25);
+    height: 46px;
+    width: auto;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4);
+    filter: brightness(1.08);
+}
+
+.action-btn.unlock-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #031c11;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+.action-btn.unlock-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+    filter: brightness(1.08);
+}
+
+.action-btn.read-btn {
+    background: linear-gradient(135deg, #34d399, #06b6d4);
+    color: #041820;
+    box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
+    font-weight: 800;
+}
+
+.action-btn.read-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4);
+    filter: brightness(1.1);
+}
+
+.action-btn.cert-btn {
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: var(--accent-gold);
+}
+
+.action-btn.cert-btn:hover {
+    background: rgba(251, 191, 36, 0.2);
+    transform: translateY(-1px);
+}
+
+.action-btn.secondary-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+}
+
+.action-btn.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.action-btn.disabled-btn {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.footnote-status {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.footnote-status.success {
+    color: var(--accent-mint);
+    font-weight: 600;
+}
+
+/* Certificate Area */
+.cert-section {
+    margin-top: 40px;
+    padding: 32px;
+}
+
+.certificate-modern-card {
+    background: linear-gradient(145deg, #ffffff, #f4f8f5);
+    color: #0f2e1d;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 16px;
+    padding: 40px 30px;
+    max-width: 820px;
+    margin: 24px auto 0;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.certificate-modern-card::before {
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border: 2px dashed #a3d9bc;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.cert-emblem { font-size: 32px; margin-bottom: 6px; }
+.cert-org {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #059669;
+    text-transform: uppercase;
+}
+
+.cert-type {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #475569;
+    margin-top: 4px;
+}
+
+.cert-title-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 800;
+    color: #064e3b;
+    margin: 14px 0 10px;
+}
+
+.cert-awarded-to {
+    font-size: 13px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cert-recipient-name {
+    font-family: 'Space Grotesk', Georgia, serif;
+    font-size: clamp(26px, 4.5vw, 38px);
+    font-weight: 700;
+    color: #022c22;
+    border-bottom: 2px solid #059669;
+    display: inline-block;
+    padding: 4px 30px;
+    margin: 8px 0 16px;
+    min-width: 260px;
+}
+
+.cert-description {
+    font-size: 13.5px;
+    color: #334155;
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.cert-rank-pill {
+    display: inline-block;
+    background: #e6f7ef;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 6px 20px;
+    border-radius: 9999px;
+    margin: 16px 0;
+}
+
+.cert-footer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px solid #cbd5e1;
+    font-size: 11.5px;
+    color: #475569;
+    text-align: left;
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.field input, .field select {
+    background: rgba(10, 15, 20, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 13px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.field input:focus, .field select:focus {
+    border-color: var(--accent-mint);
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15);
+}
+
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-subtle);
+    line-height: 1.7;
+}
+
+@media(max-width: 900px) {
+    .rewards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero { grid-template-columns: 1fr; }
+    .hero-art { display: none; }
+}
+
+@media(max-width: 640px) {
+    main { padding: 20px 14px 60px; }
+    header { padding: 14px 4%; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .rewards-grid, .profile-form-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+    body { background: #ffffff !important; color: #000000 !important; }
+    .no-print, header, .stats-grid, .hero, .section-headline, .progress-shell, .rewards-grid, footer {
+        display: none !important;
+    }
+    #certificateArea {
+        display: block !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .certificate-modern-card {
+        box-shadow: none !important;
+        border: 2px solid #059669 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header>
+    <a href="{{ url_for('dashboard') }}" class="brand">
+        <div class="brand-icon">🌱</div>
+        ECO FUSION <span>360</span>
+    </a>
+
+    <div class="header-actions">
+        <a href="{{ url_for('dashboard') }}" class="nav-link">← Dashboard</a>
+        <div class="nav-pill">
+            <span class="dot"></span>
+            REWARD CENTER
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- Flash Notifications from Flask -->
+    {% if session.get('reward_notice') %}
+    <div class="notice-box {{ 'error' if session.get('reward_notice')[0] == 'error' else '' }}">
+        <span>{{ '⚠️' if session.get('reward_notice')[0] == 'error' else '✨' }}</span>
+        <span>{{ session.get('reward_notice')[1] }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Hero Card -->
+    <section class="hero">
+        <div>
+            <div class="eyebrow">Your impact deserves a reward</div>
+            <h1>Turn green actions into <span style="color:var(--accent-mint)">great rewards.</span></h1>
+            <p>
+                Spend your verified Green Tokens on digital reading rewards. Unlocks are saved permanently to your Eco Fusion 360 account with zero duplicate charges.
+            </p>
+            <a class="btn-primary" href="#catalogue">
+                Explore Digital Rewards ↓
+            </a>
+        </div>
+        <div class="hero-art">🌱✨📚</div>
+    </section>
+
+    {% set balance = progress['green_tokens']|int if progress else 0 %}
+    {% set unlocked_count = unlocks|length if unlocks else 0 %}
+
+    <!-- Top Key Metrics -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <small>Available Green Tokens</small>
+            <strong class="highlight">{{ '{:,}'.format(balance) }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <small>Rewards Unlocked</small>
+            <strong>{{ unlocked_count }}</strong>
+        </div>
+
+        <div class="stat-card">
+            <small>Ecosystem Position</small>
+            <strong>
+                {% if balance >= 2000 %}Eco Guardian
+                {% elif balance >= 1200 %}Planet Protector
+                {% elif balance >= 700 %}Green Champion
+                {% elif balance >= 300 %}Eco Explorer
+                {% else %}Seedling{% endif %}
+            </strong>
+        </div>
+    </section>
+
+    <!-- Section Title & Progress Bar -->
+    <div class="section-headline" id="catalogue">
+        <div>
+            <h2>📚 Manga & Digital Rewards</h2>
+            <p>Tokens are deducted upon unlocking. Official reading links unlock permanently in your account.</p>
+        </div>
+    </div>
+
+    <div class="progress-shell">
+        <div class="progress-fill" style="width: {{ [100, (unlocked_count * 100 // 8)]|min }}%;"></div>
+    </div>
+
+    <!-- 6 Digital Reward Cards Grid -->
+    <div class="rewards-grid">
+
+        {% set digital_items = digital_catalogue if digital_catalogue is defined and digital_catalogue else catalogue %}
+        {% set digital_count = namespace(value=0) %}
+
+        {% for item in digital_items %}
+        {% if item.get('reward_category') in ('anime','manga','certificate') or item.get('reward_name') in ('Digital Anime Book','Haikyu!!','Demon Slayer','Black Clover','Solo Leveling','Jujutsu Kaisen','Eco Champion Certificate','Planet Guardian Certificate') %}
+
+        {% set digital_count.value = digital_count.value + 1 %}
+        {% set is_unlocked = item.get('unlocked') %}
+
+        <article class="manga-card {{ 'unlocked-card' if is_unlocked else '' }}">
+            <div class="card-top">
+                <span class="genre-pill">
+                    {{ 'CERTIFICATE' if item.get('reward_category') == 'certificate' else (item.get('reward_type') or 'MANGA') }}
+                </span>
+
+                {% if is_unlocked %}
+                <span class="status-badge unlocked">UNLOCKED ✓</span>
+                {% else %}
+                <span class="status-badge locked">LOCKED</span>
+                {% endif %}
+            </div>
+
+            <div class="card-title-group">
+                <div class="card-avatar">
+                    {% if 'Haikyu' in item['reward_name'] %}🏐
+                    {% elif 'Demon Slayer' in item['reward_name'] %}⚔️
+                    {% elif 'Black Clover' in item['reward_name'] %}🍀
+                    {% elif 'Solo Leveling' in item['reward_name'] %}🗡️
+                    {% elif 'Jujutsu' in item['reward_name'] %}👹
+                    {% elif 'Certificate' in item['reward_name'] %}🏅
+                    {% else %}📚{% endif %}
+                </div>
+                <div>
+                    <h3>{{ item['reward_name'] }}</h3>
+                </div>
+            </div>
+
+            <p class="card-desc">{{ item['description'] }}</p>
+
+            <div class="cost-tag">
+                <span>✦</span>
+                <span>{{ item['reward_cost'] }} Green Tokens</span>
+            </div>
+
+            <!-- ACTION LOGIC: NO LINKS SHOWN WHEN LOCKED -->
+            {% if is_unlocked %}
+                {% if item.get('reward_category') == 'certificate' %}
+                    <button class="action-btn cert-btn" type="button" onclick="openCertificate('{{ item['reward_name']|e }}')">
+                        🏅 Personalise & Print Certificate
+                    </button>
+                {% elif item.get('unlock_url') %}
+                    <a class="action-btn read-btn" href="{{ item.get('unlock_url') }}" target="_blank" rel="noopener noreferrer">
+                        📖 Read Chapter Now ↗
+                    </a>
+                {% else %}
+                    <span class="action-btn secondary-btn">✓ Unlocked in Account</span>
+                {% endif %}
+                <div class="footnote-status success">✓ Unlocked · Saved to your account</div>
+
+            {% elif item.get('can_unlock') %}
+                <form method="post" action="{{ url_for('redeem_reward', reward_id=item['id']) }}">
+                    <button class="action-btn unlock-btn" type="submit">
+                        Unlock with {{ item['reward_cost'] }} Tokens
+                    </button>
+                </form>
+                <div class="footnote-status">Deducts {{ item['reward_cost'] }} tokens to unlock</div>
+
+            {% else %}
+                <button class="action-btn disabled-btn" disabled>
+                    {{ item.get('locked_reason') or ('Need ' ~ (item['reward_cost'] - balance) ~ ' more tokens') }}
+                </button>
+                <div class="footnote-status">🔒 Locked · Earn tokens to unlock</div>
+            {% endif %}
+
+        </article>
+        {% endif %}
+        {% endfor %}
+
+        {% if digital_count.value == 0 %}
+        <div class="glass-panel" style="grid-column: 1 / -1; padding: 28px; text-align: center;">
+            <h3>Digital rewards are loading...</h3>
+            <p style="color: var(--text-secondary); margin-top: 6px;">
+                Rewards are syncing from your SQLite database. Refresh or check admin catalogue.
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- Certificate Customization and Print Area -->
+    {% set certificate_unlocked = namespace(value=false, name='Eco Champion Certificate') %}
+    {% for item in catalogue %}
+        {% if item.get('reward_category') == 'certificate' and item.get('unlocked') %}
+            {% set certificate_unlocked.value = true %}
+            {% set certificate_unlocked.name = item['reward_name'] %}
+        {% endif %}
+    {% endfor %}
+
+    <section id="certificateArea" class="glass-panel cert-section" style="display: {{ 'block' if certificate_unlocked.value else 'none' }};">
+        <div class="section-headline" style="margin-top: 0;">
+            <div>
+                <h2>🏅 Eco Achievement Certificate</h2>
+                <p>Personalize your official sustainability milestone and print or export to PDF.</p>
+            </div>
+        </div>
+
+        <div class="profile-form-grid no-print">
+            <div class="field">
+                <label for="certName">Recipient Name</label>
+                <input id="certName" maxlength="70" value="{{ session.get('full_name', 'Eco Champion')|e }}" oninput="updateCertPreview()">
+            </div>
+
+            <div class="field">
+                <label for="certPosition">Ecosystem Rank</label>
+                <select id="certPosition" onchange="updateCertPreview()">
+                    <option value="Seedling">Seedling</option>
+                    <option value="Eco Explorer">Eco Explorer</option>
+                    <option value="Green Champion">Green Champion</option>
+                    <option value="Planet Protector">Planet Protector</option>
+                    <option value="Eco Guardian">Eco Guardian</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="certificate-modern-card" id="printableCertificate">
+            <div class="cert-emblem">🌍</div>
+            <div class="cert-org">Eco Fusion 360</div>
+            <div class="cert-type">Milestone Credential</div>
+
+            <h2 class="cert-title-text" id="certTitle">{{ certificate_unlocked.name }}</h2>
+
+            <div class="cert-awarded-to">This certificate is proudly awarded to</div>
+            <div class="cert-recipient-name" id="certNamePreview">{{ session.get('full_name', 'Eco Champion')|e }}</div>
+
+            <p class="cert-description">
+                For exemplary environmental dedication and measurable contributions towards smart plastic waste management and planetary preservation.
+            </p>
+
+            <div class="cert-rank-pill" id="certRankPreview">Seedling</div>
+
+            <p style="font-size: 13px; color: #475569; font-weight: 500;">
+                Keep reducing, reusing, recycling, and inspiring our community.
+            </p>
+
+            <div class="cert-footer-meta">
+                <div>
+                    <strong>Eco Fusion 360 Verification</strong><br>
+                    Smart Plastic Waste Initiative
+                </div>
+                <div style="text-align: right;">
+                    Verified Green Tokens: <strong id="certTokensPreview">{{ balance }}</strong><br>
+                    Status: <span style="color:#059669; font-weight:700;">Verified Active</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-print" style="text-align: center; margin-top: 24px;">
+            <button class="btn-primary" type="button" onclick="window.print()">
+                🖨️ Print / Save as PDF
+            </button>
+        </div>
+    </section>
+
+    <!-- Physical Rewards Section -->
+    <div class="section-headline">
+        <div>
+            <h2>🎁 Physical Eco Rewards</h2>
+            <p>Physical reward requests are reviewed by coordinators and shipped to your location.</p>
+        </div>
+    </div>
+
+    <div class="rewards-grid">
+        {% for item in catalogue %}
+        {% if item.get('reward_category') not in ('anime','manga','certificate') and item.get('reward_name') not in ('Digital Anime Book','Haikyu!!','Demon Slayer','Black Clover','Solo Leveling','Jujutsu Kaisen','Eco Champion Certificate','Planet Guardian Certificate') %}
+        <article class="manga-card">
+            <div class="card-top">
+                <span class="genre-pill">{{ item['reward_type']|upper }}</span>
+            </div>
+
+            <div class="card-title-group">
+                <div class="card-avatar">🎁</div>
+                <div>
+                    <h3>{{ item['reward_name'] }}</h3>
+                </div>
+            </div>
+
+            <p class="card-desc">{{ item['description'] }}</p>
+
+            <div class="cost-tag">
+                <span>✦</span>
+                <span>{{ item['reward_cost'] }} Green Tokens</span>
+            </div>
+
+            {% if item.get('can_unlock') %}
+            <form method="post" action="{{ url_for('redeem_reward', reward_id=item['id']) }}">
+                <button class="action-btn unlock-btn" type="submit">Redeem Reward</button>
+            </form>
+            {% else %}
+            <button class="action-btn disabled-btn" disabled>
+                {% if item['reward_type'] == 'Physical' and item['stock']|int <= 0 %}
+                    Out of stock
+                {% else %}
+                    Need {{ [0, item['reward_cost'] - balance]|max }} more tokens
+                {% endif %}
+            </button>
+            {% endif %}
+        </article>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        Eco Fusion 360 · Smart Plastic Waste Management & Reward System<br>
+        Reading links open licensed publisher platforms (VIZ & MANGA Plus). Access is linked to your verified Eco Fusion token unlocks.
+    </footer>
+
+</main>
+
+<script>
+function positionFromTokens(n) {
+    if (n >= 2000) return 'Eco Guardian';
+    if (n >= 1200) return 'Planet Protector';
+    if (n >= 700) return 'Green Champion';
+    if (n >= 300) return 'Eco Explorer';
+    return 'Seedling';
+}
+
+function updateCertPreview() {
+    const nameInput = document.getElementById('certName');
+    const posInput = document.getElementById('certPosition');
+
+    const name = (nameInput && nameInput.value.trim()) || 'Eco Champion';
+    const rank = (posInput && posInput.value) || positionFromTokens({{ balance|int }});
+
+    const pName = document.getElementById('certNamePreview');
+    const pRank = document.getElementById('certRankPreview');
+
+    if (pName) pName.textContent = name;
+    if (pRank) pRank.textContent = rank;
+}
+
+function openCertificate(title) {
+    const area = document.getElementById('certificateArea');
+    if (!area) return;
+
+    area.style.display = 'block';
+    if (title) document.getElementById('certTitle').textContent = title;
+
+    const posSelect = document.getElementById('certPosition');
+    if (posSelect) posSelect.value = positionFromTokens({{ balance|int }});
+
+    updateCertPreview();
+    area.scrollIntoView({ behavior: 'smooth' });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const posSelect = document.getElementById('certPosition');
+    if (posSelect) {
+        posSelect.value = positionFromTokens({{ balance|int }});
+        updateCertPreview();
+    }
+});
+</script>
+
+</body>
+</html>

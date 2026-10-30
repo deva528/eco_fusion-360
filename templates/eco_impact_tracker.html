@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earth Pulse: Real-Time Environmental Impact Tracker</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(25, 34, 54, 0.95);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-yellow: #f59e0b;
+      --accent-blue: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-teal: #14b8a6;
+      --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding: 24px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(239, 68, 68, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(56, 189, 248, 0.06) 0%, transparent 45%);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pulse-indicator {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      70% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    /* Controls Bar */
+    .controls-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 7px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn.active {
+      background: var(--accent-green);
+      color: #052e16;
+      border-color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: inline-flex;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .btn-group .btn {
+      border: none;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.4);
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+
+    /* Main Grid - 8 Cards */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    /* Metric Cards */
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .metric-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .live-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .value-display {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      margin-bottom: 6px;
+    }
+
+    .category-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .card-bottom {
+      border-top: 1px solid var(--card-border);
+      padding-top: 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Color borders for each metric */
+    .color-carbon { border-top: 3px solid var(--accent-red); }
+    .color-air { border-top: 3px solid var(--accent-yellow); }
+    .color-soil { border-top: 3px solid var(--accent-purple); }
+    .color-land { border-top: 3px solid #fb923c; }
+    .color-life { border-top: 3px solid #f43f5e; }
+    .color-plastic-dumped { border-top: 3px solid var(--accent-blue); }
+    .color-plastic-recycled { border-top: 3px solid var(--accent-green); }
+    .color-plants { border-top: 3px solid #10b981; }
+
+    /* Net Plastic Balance Banner */
+    .net-banner {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .net-stats-group {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .net-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .net-item-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .net-item-val {
+      font-family: ui-monospace, monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    /* Bottom Panel: Live Visualizer + Activity Log */
+    .bottom-layout {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .bottom-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    canvas#pulseChart {
+      width: 100%;
+      height: 190px;
+      display: block;
+    }
+
+    /* Live Feed */
+    .feed-container {
+      height: 190px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 6px;
+    }
+
+    .feed-container::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .feed-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .feed-item {
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 3px solid var(--accent-teal);
+      border-radius: 6px;
+      font-size: 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feed-text {
+      color: var(--text-main);
+    }
+
+    .feed-time {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      margin-left: 8px;
+      white-space: nowrap;
+      font-family: ui-monospace, monospace;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <div class="title-group">
+      <div class="pulse-indicator" id="pulseDot" title="Live real-time feed active"></div>
+      <div>
+        <h1>🌍 Earth Pulse Tracker</h1>
+        <div class="subtitle">Real-time continuous environmental indicators updating every second</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-panel">
+      <!-- Mode Selection -->
+      <div class="btn-group" id="modeGroup">
+        <button class="btn active" data-mode="session">Session</button>
+        <button class="btn" data-mode="today">Today</button>
+        <button class="btn" data-mode="year">This Year</button>
+      </div>
+
+      <!-- Multiplier -->
+      <div class="btn-group" id="speedGroup">
+        <button class="btn active" data-speed="1">1x</button>
+        <button class="btn" data-speed="5">5x</button>
+        <button class="btn" data-speed="10">10x</button>
+      </div>
+
+      <!-- Sound Toggle -->
+      <button class="btn" id="soundBtn">
+        <span>🔇</span> Sound Off
+      </button>
+
+      <!-- Pause / Resume -->
+      <button class="btn" id="pauseBtn">
+        <span id="pauseIcon">⏸️</span> Pause
+      </button>
+
+      <!-- Reset -->
+      <button class="btn" id="resetBtn">
+        🔄 Reset
+      </button>
+
+      <!-- Download Report -->
+      <button class="btn" id="exportBtn">
+        📥 Export Report
+      </button>
+    </div>
+  </header>
+
+  <!-- Live Status Bar -->
+  <div class="status-bar">
+    <div>
+      ⏱️ <strong style="color: var(--text-main);">Elapsed Time:</strong> <span id="timerDisplay" style="font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent-green); font-family: ui-monospace, monospace;">00:00:00.0</span>
+      <span style="margin: 0 10px;">•</span>
+      📅 <strong style="color: var(--text-main);">Local Clock:</strong> <span id="clockDisplay" style="font-variant-numeric: tabular-nums; font-family: ui-monospace, monospace;">--:--:--</span>
+    </div>
+    <div style="font-size: 0.78rem;">
+      ⚡ Status: <strong style="color: var(--accent-teal);">Real-time ticker synchronized</strong>
+    </div>
+  </div>
+
+  <!-- Primary Metrics Grid (8 Cards) -->
+  <div class="dashboard-grid">
+    
+    <!-- 1. Carbon Emission -->
+    <div class="metric-card color-carbon">
+      <div class="card-top">
+        <span class="metric-name">🌡️ Carbon Emissions</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valCarbon">0.000000</div>
+      <div class="category-label">Atmospheric Carbon Release</div>
+      <div class="card-bottom">
+        <span>Indicator Status:</span>
+        <span style="color: #fca5a5; font-weight: 600;">Active Accumulation</span>
+      </div>
+    </div>
+
+    <!-- 2. Air Pollution -->
+    <div class="metric-card color-air">
+      <div class="card-top">
+        <span class="metric-name">🌫️ Air Pollution</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valAir">0.000000</div>
+      <div class="category-label">Airborne Particulates & Toxic Gas</div>
+      <div class="card-bottom">
+        <span>Atmosphere Quality:</span>
+        <span style="color: #fde68a; font-weight: 600;">Impact Tracking</span>
+      </div>
+    </div>
+
+    <!-- 3. Soil Pollution & Erosion -->
+    <div class="metric-card color-soil">
+      <div class="card-top">
+        <span class="metric-name">🌱 Soil Pollution & Erosion</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valSoil">0.000000</div>
+      <div class="category-label">Topsoil Degradation & Chemical Contamination</div>
+      <div class="card-bottom">
+        <span>Geosphere Status:</span>
+        <span style="color: #e9d5ff; font-weight: 600;">Active Erosion</span>
+      </div>
+    </div>
+
+    <!-- 4. Land Degradation -->
+    <div class="metric-card color-land">
+      <div class="card-top">
+        <span class="metric-name">🏜️ Land Degradation</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valLand">0.000000</div>
+      <div class="category-label">Arable Soil Loss & Desertification</div>
+      <div class="card-bottom">
+        <span>Terrain Status:</span>
+        <span style="color: #fed7aa; font-weight: 600;">Land Loss Tracking</span>
+      </div>
+    </div>
+
+    <!-- 5. Living Organisms Affected -->
+    <div class="metric-card color-life">
+      <div class="card-top">
+        <span class="metric-name">🐾 Living Organisms Affected</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valLife">0.000000</div>
+      <div class="category-label">Species Displaced, Poisoned or Harmed</div>
+      <div class="card-bottom">
+        <span>Biosphere Impact:</span>
+        <span style="color: #fecdd3; font-weight: 600;">Species Stress</span>
+      </div>
+    </div>
+
+    <!-- 6. Plastic Waste Found & Dumped -->
+    <div class="metric-card color-plastic-dumped">
+      <div class="card-top">
+        <span class="metric-name">♻️ Plastic Waste Found & Dumped</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valPlasticDumped">0.000000</div>
+      <div class="category-label">Non-Biodegradable Plastic Influx</div>
+      <div class="card-bottom">
+        <span>Pollution Status:</span>
+        <span style="color: #bae6fd; font-weight: 600;">Waste Generated</span>
+      </div>
+    </div>
+
+    <!-- 7. Plastic Recycled -->
+    <div class="metric-card color-plastic-recycled">
+      <div class="card-top">
+        <span class="metric-name">🔄 Plastic Recycled</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valPlasticRecycled">0.000000</div>
+      <div class="category-label">Recovered & Processed Plastic Material</div>
+      <div class="card-bottom">
+        <span>Recovery Status:</span>
+        <span style="color: #a7f3d0; font-weight: 600;">Circular Stream</span>
+      </div>
+    </div>
+
+    <!-- 8. Plants & Trees Destroyed -->
+    <div class="metric-card color-plants">
+      <div class="card-top">
+        <span class="metric-name">🌳 Plants & Trees Destroyed</span>
+        <span class="live-tag">Live</span>
+      </div>
+      <div class="value-display" id="valTrees">0.000000</div>
+      <div class="category-label">Deforestation & Canopy Loss</div>
+      <div class="card-bottom">
+        <span>Flora Status:</span>
+        <span style="color: #a7f3d0; font-weight: 600;">Forest Loss</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Plastic Balance Stream Card -->
+  <div class="net-banner">
+    <div>
+      <div style="font-weight: 700; font-size: 0.98rem; display: flex; align-items: center; gap: 8px;">
+        <span>⚖️ Plastic Lifecycle Balance Monitor</span>
+      </div>
+      <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">
+        Comparing plastic dumped vs. plastic recycled in real time
+      </div>
+    </div>
+    <div class="net-stats-group">
+      <div class="net-item">
+        <span class="net-item-label">Plastic Dumped</span>
+        <span class="net-item-val" style="color: #38bdf8;" id="bannerDumped">0.000000</span>
+      </div>
+      <div class="net-item">
+        <span class="net-item-label">Plastic Recycled</span>
+        <span class="net-item-val" style="color: #10b981;" id="bannerRecycled">0.000002</span>
+      </div>
+      <div class="net-item">
+        <span class="net-item-label">Net Unrecycled Residue</span>
+        <span class="net-item-val" style="color: #f43f5e;" id="bannerNet">0.000000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Panel: Dynamic Canvas Visualizer & Live Activity Stream -->
+  <div class="bottom-layout">
+    
+    <!-- Real-time Chart -->
+    <div class="panel-card">
+      <div class="panel-header">
+        <span class="panel-title">📈 Real-Time Accumulation Waveform</span>
+        <span style="font-size: 0.76rem; color: var(--text-muted);">Dynamic continuous trajectory</span>
+      </div>
+      <canvas id="pulseChart" width="700" height="190"></canvas>
+    </div>
+
+    <!-- Live Event Feed -->
+    <div class="panel-card">
+      <div class="panel-header">
+        <span class="panel-title">⚡ Live Indicator Event Stream</span>
+        <span style="font-size: 0.74rem; color: var(--accent-green);" id="liveEventCount">0 updates tracked</span>
+      </div>
+      <div class="feed-container" id="feedList">
+        <!-- Live items inserted via JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      🌍 <strong>Earth Pulse</strong> • Continuous Real-Time Environmental Indicator Monitor
+    </div>
+    <div>
+      All metrics continuously change with time every second
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Exact user-specified rates per second
+  const RATES = {
+    carbon: 0.000003,
+    air: 0.000001,
+    soil: 0.000001,
+    land: 0.000001,
+    life: 0.000020,
+    plasticDumped: 0.000003,
+    plasticRecycled: 0.000002,
+    trees: 0.000001
+  };
+
+  // State
+  let currentMode = 'session';
+  let speedMultiplier = 1;
+  let isPaused = false;
+  let audioEnabled = false;
+  let sessionStartTime = performance.now();
+  let pausedDuration = 0;
+  let pauseStartTime = 0;
+  let totalElapsedSeconds = 0;
+  let lastSecondMark = 0;
+
+  // DOM Elements
+  const timerDisplay = document.getElementById('timerDisplay');
+  const clockDisplay = document.getElementById('clockDisplay');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const resetBtn = document.getElementById('resetBtn');
+  const soundBtn = document.getElementById('soundBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const pulseDot = document.getElementById('pulseDot');
+  const feedList = document.getElementById('feedList');
+  const liveEventCount = document.getElementById('liveEventCount');
+
+  // Value Display Elements
+  const valCarbon = document.getElementById('valCarbon');
+  const valAir = document.getElementById('valAir');
+  const valSoil = document.getElementById('valSoil');
+  const valLand = document.getElementById('valLand');
+  const valLife = document.getElementById('valLife');
+  const valPlasticDumped = document.getElementById('valPlasticDumped');
+  const valPlasticRecycled = document.getElementById('valPlasticRecycled');
+  const valTrees = document.getElementById('valTrees');
+
+  // Banner elements
+  const bannerDumped = document.getElementById('bannerDumped');
+  const bannerRecycled = document.getElementById('bannerRecycled');
+  const bannerNet = document.getElementById('bannerNet');
+
+  // Web Audio Context for ticking pulse
+  let audioCtx = null;
+  function playTickSound() {
+    if (!audioEnabled) return;
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.035);
+      gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.035);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.035);
+    } catch(e) {}
+  }
+
+  // Format Helper: fixed 6 decimals
+  function formatVal(num) {
+    return Number(num).toFixed(6);
+  }
+
+  // Calculate baseline offset for today or year
+  function getModeOffsetSeconds() {
+    const now = new Date();
+    if (currentMode === 'today') {
+      const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+      return (now.getTime() - midnight.getTime()) / 1000;
+    } else if (currentMode === 'year') {
+      const yearStart = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
+      return (now.getTime() - yearStart.getTime()) / 1000;
+    }
+    return 0;
+  }
+
+  // Canvas Waveform Animation
+  const canvas = document.getElementById('pulseChart');
+  const ctx = canvas.getContext('2d');
+  const chartHistory = {
+    carbon: new Array(50).fill(0),
+    life: new Array(50).fill(0),
+    plastic: new Array(50).fill(0)
+  };
+
+  function updateChart(effSec) {
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    for (let y = 30; y < h; y += 40) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+      ctx.stroke();
+    }
+
+    const normCarbon = (Math.sin(effSec * 1.5) * 0.2 + 0.7) * 40;
+    const normLife = (Math.cos(effSec * 1.1) * 0.2 + 0.6) * 35;
+    const normPlastic = (Math.sin(effSec * 0.8 + 1) * 0.2 + 0.5) * 30;
+
+    chartHistory.carbon.push(normCarbon);
+    chartHistory.carbon.shift();
+    chartHistory.life.push(normLife);
+    chartHistory.life.shift();
+    chartHistory.plastic.push(normPlastic);
+    chartHistory.plastic.shift();
+
+    function drawStream(data, color, label, yOffset) {
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.2;
+      const step = w / (data.length - 1);
+      for (let i = 0; i < data.length; i++) {
+        const x = i * step;
+        const y = h - (data[i] + yOffset);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      ctx.font = '10px system-ui';
+      ctx.fillText(label, w - 140, h - (data[data.length - 1] + yOffset) - 6);
+    }
+
+    drawStream(chartHistory.carbon, '#ef4444', 'Carbon Emissions', 80);
+    drawStream(chartHistory.life, '#f43f5e', 'Organisms Affected', 45);
+    drawStream(chartHistory.plastic, '#38bdf8', 'Plastic Stream', 15);
+  }
+
+  // Live Activity Events without showing rate increase numbers
+  let eventCounter = 0;
+  const eventTemplates = [
+    () => `🌡️ Atmospheric <strong>carbon emissions</strong> level updated`,
+    () => `🌳 Forest canopy and <strong>plant loss</strong> indicator incremented`,
+    () => `🔄 <strong>Plastic recycling</strong> volume recorded into circular stream`,
+    () => `♻️ <strong>Plastic waste dumped</strong> in terrestrial & aquatic ecosystems registered`,
+    () => `🐾 <strong>Living organisms affected</strong> by pollution & disruption updated`,
+    () => `🌱 <strong>Soil pollution & topsoil erosion</strong> telemetry refreshed`,
+    () => `🌫️ <strong>Air pollution</strong> particulate concentration recalculated`,
+    () => `🏜️ <strong>Land degradation</strong> & desertification index updated`
+  ];
+
+  function pushLiveEvent() {
+    eventCounter++;
+    const template = eventTemplates[eventCounter % eventTemplates.length];
+    const item = document.createElement('div');
+    item.className = 'feed-item';
+    
+    const now = new Date();
+    const timeStr = now.toTimeString().split(' ')[0];
+
+    item.innerHTML = `
+      <span class="feed-text">${template()}</span>
+      <span class="feed-time">${timeStr}</span>
+    `;
+
+    feedList.prepend(item);
+    if (feedList.children.length > 20) {
+      feedList.removeChild(feedList.lastChild);
+    }
+    liveEventCount.innerText = `${eventCounter} updates tracked`;
+  }
+
+  // Main Loop
+  function tick(timestamp) {
+    if (!isPaused) {
+      const now = performance.now();
+      const currentElapsed = (now - sessionStartTime - pausedDuration) / 1000;
+      totalElapsedSeconds = currentElapsed * speedMultiplier;
+
+      // Timer display
+      const hrs = Math.floor(totalElapsedSeconds / 3600);
+      const mins = Math.floor((totalElapsedSeconds % 3600) / 60);
+      const secs = Math.floor(totalElapsedSeconds % 60);
+      const dec = Math.floor((totalElapsedSeconds * 10) % 10);
+      timerDisplay.innerText = 
+        `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}.${dec}`;
+
+      // Live clock
+      const clockDate = new Date();
+      clockDisplay.innerText = clockDate.toLocaleTimeString();
+
+      // Cumulative calculation
+      const offsetSec = getModeOffsetSeconds();
+      const effectiveSeconds = offsetSec + totalElapsedSeconds;
+
+      const cCarbon = effectiveSeconds * RATES.carbon;
+      const cAir = effectiveSeconds * RATES.air;
+      const cSoil = effectiveSeconds * RATES.soil;
+      const cLand = effectiveSeconds * RATES.land;
+      const cLife = effectiveSeconds * RATES.life;
+      const cPlasticDumped = effectiveSeconds * RATES.plasticDumped;
+      const cPlasticRecycled = effectiveSeconds * RATES.plasticRecycled;
+      const cTrees = effectiveSeconds * RATES.trees;
+
+      // Update 8 Value Displays with exact 6 decimals
+      valCarbon.innerText = formatVal(cCarbon);
+      valAir.innerText = formatVal(cAir);
+      valSoil.innerText = formatVal(cSoil);
+      valLand.innerText = formatVal(cLand);
+      valLife.innerText = formatVal(cLife);
+      valPlasticDumped.innerText = formatVal(cPlasticDumped);
+      valPlasticRecycled.innerText = formatVal(cPlasticRecycled);
+      valTrees.innerText = formatVal(cTrees);
+
+      // Banner values
+      bannerDumped.innerText = formatVal(cPlasticDumped);
+      bannerRecycled.innerText = formatVal(cPlasticRecycled);
+      bannerNet.innerText = formatVal(cPlasticDumped - cPlasticRecycled);
+
+      // Once per second trigger
+      const currentSecFloor = Math.floor(totalElapsedSeconds);
+      if (currentSecFloor > lastSecondMark) {
+        lastSecondMark = currentSecFloor;
+        pushLiveEvent();
+        playTickSound();
+      }
+
+      updateChart(totalElapsedSeconds);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Mode Selection
+  document.getElementById('modeGroup').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') {
+      document.querySelectorAll('#modeGroup .btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      currentMode = e.target.getAttribute('data-mode');
+    }
+  });
+
+  // Speed Multiplier
+  document.getElementById('speedGroup').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') {
+      document.querySelectorAll('#speedGroup .btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      speedMultiplier = parseFloat(e.target.getAttribute('data-speed'));
+    }
+  });
+
+  // Pause / Resume
+  pauseBtn.addEventListener('click', () => {
+    if (isPaused) {
+      isPaused = false;
+      pausedDuration += (performance.now() - pauseStartTime);
+      pauseBtn.classList.remove('active');
+      pauseBtn.innerHTML = `<span>⏸️</span> Pause`;
+      pulseDot.style.animationPlayState = 'running';
+      pulseDot.style.opacity = '1';
+    } else {
+      isPaused = true;
+      pauseStartTime = performance.now();
+      pauseBtn.classList.add('active');
+      pauseBtn.innerHTML = `<span>▶️</span> Resume`;
+      pulseDot.style.animationPlayState = 'paused';
+      pulseDot.style.opacity = '0.4';
+    }
+  });
+
+  // Reset
+  resetBtn.addEventListener('click', () => {
+    sessionStartTime = performance.now();
+    pausedDuration = 0;
+    pauseStartTime = 0;
+    totalElapsedSeconds = 0;
+    lastSecondMark = 0;
+    eventCounter = 0;
+    feedList.innerHTML = '';
+    liveEventCount.innerText = '0 updates tracked';
+  });
+
+  // Sound Toggle
+  soundBtn.addEventListener('click', () => {
+    audioEnabled = !audioEnabled;
+    if (audioEnabled) {
+      soundBtn.classList.add('active');
+      soundBtn.innerHTML = `<span>🔊</span> Sound On`;
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } else {
+      soundBtn.classList.remove('active');
+      soundBtn.innerHTML = `<span>🔇</span> Sound Off`;
+    }
+  });
+
+  // Export Report
+  exportBtn.addEventListener('click', () => {
+    const offsetSec = getModeOffsetSeconds();
+    const eff = offsetSec + totalElapsedSeconds;
+    const now = new Date();
+
+    const report = `ENVIRONMENTAL IMPACT MONITORING REPORT
+==================================================
+Timestamp: ${now.toISOString()}
+Mode: ${currentMode.toUpperCase()}
+Tracking Duration: ${totalElapsedSeconds.toFixed(1)}s (${(totalElapsedSeconds/60).toFixed(2)} min)
+Speed: ${speedMultiplier}x
+
+CURRENT ACCUMULATED VALUES:
+--------------------------------------------------
+🌡️ Carbon Emissions:            ${formatVal(eff * RATES.carbon)}
+🌫️ Air Pollution:               ${formatVal(eff * RATES.air)}
+🌱 Soil Pollution & Erosion:     ${formatVal(eff * RATES.soil)}
+🏜️ Land Degradation:             ${formatVal(eff * RATES.land)}
+🐾 Living Organisms Affected:    ${formatVal(eff * RATES.life)}
+♻️ Plastic Waste Found & Dumped: ${formatVal(eff * RATES.plasticDumped)}
+🔄 Plastic Recycled:             ${formatVal(eff * RATES.plasticRecycled)}
+🌳 Plants & Trees Destroyed:     ${formatVal(eff * RATES.trees)}
+--------------------------------------------------
+📊 Net Unrecycled Plastic Waste: ${formatVal(eff * (RATES.plasticDumped - RATES.plasticRecycled))}
+==================================================`;
+
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `environmental_impact_report_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  requestAnimationFrame(tick);
+</script>
+</body>
+</html>

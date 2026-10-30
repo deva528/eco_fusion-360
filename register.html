@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account - Eco Fusion 360</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaffef,
+                    #d4f7dd,
+                    #f8fff9
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+
+        /* =========================================
+           MAIN CARD
+        ========================================= */
+
+        .register-container {
+
+            width: 100%;
+            max-width: 1050px;
+
+            min-height: 620px;
+
+            background: white;
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.12);
+
+            display: grid;
+
+            grid-template-columns:
+                0.9fr 1.1fr;
+        }
+
+
+        /* =========================================
+           LEFT SIDE
+        ========================================= */
+
+        .welcome-section {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #126c31,
+                    #239d4b
+                );
+
+            color: white;
+
+            padding: 55px 45px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 45px;
+        }
+
+        .welcome-section h1 {
+
+            font-size: 42px;
+
+            line-height: 1.15;
+
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            opacity: 0.92;
+        }
+
+        .eco-icons {
+
+            margin-top: 40px;
+
+            font-size: 45px;
+
+            letter-spacing: 8px;
+        }
+
+
+        /* =========================================
+           FORM SIDE
+        ========================================= */
+
+        .form-section {
+
+            padding: 50px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+        .form-section h2 {
+
+            color: #126c31;
+
+            font-size: 34px;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+
+            color: #718078;
+
+            margin-bottom: 28px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================
+           INPUTS
+        ========================================= */
+
+        .input-group {
+
+            margin-bottom: 17px;
+        }
+
+        .input-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #31533b;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .input-group input {
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border: 1px solid #cfe2d3;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+
+            border-color: #16823b;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(22, 130, 59, 0.10);
+        }
+
+
+        /* =========================================
+           BUTTON
+        ========================================= */
+
+        .register-button {
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 14px;
+
+            padding: 15px;
+
+            background: #16823b;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+
+            transition: 0.25s;
+        }
+
+        .register-button:hover {
+
+            background: #0e642d;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================
+           LOGIN LINK
+        ========================================= */
+
+        .login-text {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #718078;
+        }
+
+        .login-text a {
+
+            color: #16823b;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================================
+           FLASH MESSAGE
+        ========================================= */
+
+        .message {
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            margin-bottom: 18px;
+
+            background: #fff3cd;
+
+            color: #705b00;
+
+            border: 1px solid #ffe69c;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 750px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .register-container {
+
+                grid-template-columns: 1fr;
+
+                min-height: auto;
+            }
+
+            .welcome-section {
+
+                padding: 35px 30px;
+
+                text-align: center;
+            }
+
+            .welcome-section h1 {
+
+                font-size: 34px;
+            }
+
+            .logo {
+
+                margin-bottom: 20px;
+            }
+
+            .eco-icons {
+
+                margin-top: 20px;
+            }
+
+            .form-section {
+
+                padding: 35px 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="register-container">
+
+
+    <!-- =========================================
+         WELCOME
+    ========================================== -->
+
+    <section class="welcome-section">
+
+        <div class="logo">
+            🌍 Eco Fusion 360
+        </div>
+
+        <h1>
+            Start Your
+            Eco Journey
+        </h1>
+
+        <p>
+            Learn about plastic, protect the
+            environment, grow your virtual tree,
+            complete challenges and earn
+            Green Tokens.
+        </p>
+
+        <div class="eco-icons">
+            🌱 ♻️ 🌍 🌳
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         REGISTER FORM
+    ========================================== -->
+
+    <section class="form-section">
+
+        <h2>
+            Create Account
+        </h2>
+
+        <p class="subtitle">
+            Join Eco Fusion 360 and start making
+            a difference.
+        </p>
+
+
+        <!-- Flask messages -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form
+            method="POST"
+            action="{{ url_for('register') }}"
+        >
+
+
+            <div class="input-group">
+
+                <label for="full_name">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    placeholder="Enter your full name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="confirm_password">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Enter your password again"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-button"
+            >
+                🌱 Create My Account
+            </button>
+
+
+        </form>
+
+
+        <p class="login-text">
+
+            Already have an account?
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        </p>
+
+    </section>
+
+</div>
+
+
+</body>
+
+</html>
